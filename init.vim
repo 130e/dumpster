@@ -2,8 +2,8 @@
 " - For Neovim: stdpath('data') . '/plugged'
 " - Avoid using standard Vim directory names like 'plugin'
 call plug#begin()
-Plug 'joshdick/onedark.vim'
-Plug 'morhetz/gruvbox'
+"Plug 'joshdick/onedark.vim'
+Plug 'gruvbox-community/gruvbox'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'preservim/nerdcommenter'
@@ -38,7 +38,10 @@ call plug#end()
 "endif
 "colorscheme onedark
 " gruvbox
-autocmd vimenter * colorscheme gruvbox
+"autocmd vimenter * colorscheme gruvbox
+colorscheme gruvbox
+" Setting dark mode
+set background=dark
 " airline
 "let g:airline_theme = 'onedark'
 let g:airline_theme = 'gruvbox'
