@@ -1,0 +1,26 @@
+[global_config]
+  title_transmit_bg_color = "#ce5c00"
+  title_receive_bg_color = "#a40000"
+[keybindings]
+  go_up = <Alt>k
+  go_down = <Alt>j
+  go_left = <Alt>h
+  go_right = <Alt>l
+  next_tab = <Primary>semicolon
+  prev_tab = <Primary>p
+  layout_launcher = <Primary><Alt>l
+[profiles]
+  [[default]]
+    background_color = "#300a24"
+    cursor_color = "#aaaaaa"
+    foreground_color = "#ffffff"
+    palette = "#fbf1c7:#cc241d:#98971a:#d79921:#458588:#b16286:#689d6a:#7c6f64:#928374:#9d0006:#79740e:#b57614:#076678:#8f3f71:#427b58:#3c3836"
+[layouts]
+  [[default]]
+    [[[window0]]]
+      type = Window
+      parent = ""
+    [[[child1]]]
+      type = Terminal
+      parent = window0
+[plugins]
