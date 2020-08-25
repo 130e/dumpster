@@ -1,0 +1,81 @@
+/* r2dec pseudo code output */
+/* hash @ 0x8048ed8 */
+#include <stdint.h>
+ 
+int32_t my_hash (void) {
+    int32_t var_38h;
+    int32_t var_34h;
+    int32_t var_30h;
+    int32_t var_2ch;
+    int32_t var_ch;
+    eax = *(gs:0x14);
+    var_ch = *(gs:0x14);
+    eax = 0;
+    eax = &var_2ch;
+
+    var_34h = eax;
+    var_30h = 0;
+    var_38h = 0;
+    void (*0x8048f16)() ();
+    eax = var_38h;
+    eax <<= 2;
+    ebx = eax;
+
+    ebx += var_34h;
+    eax = rand ();
+    *(ebx) = eax;
+    var_38h++;
+    if (var_38h <= 7) {
+        eax = var_34h;
+        eax += 4;
+        edx = *(eax);
+
+        eax = var_34h;
+        eax += 0x14;
+        eax = *(eax);
+        eax += edx;
+        var_30h += eax;
+
+        eax = var_34h;
+        eax += 8;
+        edx = *(eax);
+
+        eax = var_34h;
+        eax += 0xc;
+        eax = *(eax);
+        ecx = edx;
+        ecx -= eax;
+        eax = ecx;
+        var_30h += eax;
+
+        eax = var_34h;
+        eax += 0x1c;
+        edx = *(eax);
+
+        eax = var_34h;
+        eax += 0x20;
+        eax = *(eax);
+        eax += edx;
+        var_30h += eax;
+
+        eax = var_34h;
+        eax += 0x10;
+        edx = *(eax);
+
+        eax = var_34h;
+        eax += 0x18;
+        eax = *(eax);
+        ecx = edx;
+        ecx -= eax;
+        eax = ecx;
+        var_30h += eax;
+        eax = var_30h;
+        edx = var_ch;
+        edx ^= *(gs:0x14);
+    }
+    void (*0x8048f00)() ();
+    if (var_30h != 0) {
+    }
+    return eax;
+    return stack_chk_fail ();
+}
