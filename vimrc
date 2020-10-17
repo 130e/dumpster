@@ -5,7 +5,7 @@ filetype off
 
 call plug#begin()
 
-Plug 'VundleVim/Vundle.vim'
+"Plug 'VundleVim/Vundle.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'preservim/nerdcommenter'
 Plug 'vim-airline/vim-airline'
