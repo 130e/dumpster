@@ -2,7 +2,6 @@
 " - For Neovim: stdpath('data') . '/plugged'
 " - Avoid using standard Vim directory names like 'plugin'
 call plug#begin()
-"Plug 'joshdick/onedark.vim'
 Plug 'gruvbox-community/gruvbox'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -10,37 +9,25 @@ Plug 'preservim/nerdcommenter'
 Plug 'luochen1990/rainbow'
 Plug 'rbgrouleff/bclose.vim'
 Plug 'francoiscabrol/ranger.vim'
-"Plug 'kevinhwang91/rnvimr', {'do': 'make sync'}
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-"Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'liuchengxu/vista.vim'
+Plug 'tmhedberg/SimpylFold'
+Plug 'lervag/vimtex'
+Plug 'karb94/neoscroll.nvim'
 
 " Initialize plugin system
 call plug#end()
 
-" onedark
-"Use 24-bit (true-color) mode in Vim/Neovim when outside tmux.
-"If you're using tmux version 2.2 or later, you can remove the outermost $TMUX check and use tmux's 24-bit color support
-"(see < http://sunaku.github.io/tmux-24bit-color.html#usage > for more information.)
-"if (empty($TMUX))
-  "if (has("nvim"))
-    ""For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >
-    "let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-  "endif
-  ""For Neovim > 0.1.5 and Vim > patch 7.4.1799 < https://github.com/vim/vim/commit/61be73bb0f965a895bfb064ea3e55476ac175162 >
-  ""Based on Vim patch 7.4.1770 (`guicolors` option) < https://github.com/vim/vim/commit/8a633e3427b47286869aa4b96f2bfc1fe65b25cd >
-  "" < https://github.com/neovim/neovim/wiki/Following-HEAD#20160511 >
-  "if (has("termguicolors"))
-    "set termguicolors
-  "endif
-"endif
-"colorscheme onedark
+" neoscroll
+lua require('neoscroll').setup()
+
 " gruvbox
 "autocmd vimenter * colorscheme gruvbox
 colorscheme gruvbox
-" Setting dark mode
+" Setting color mode
+"set background=light
 set background=dark
 " airline
 "let g:airline_theme = 'onedark'
@@ -75,7 +62,7 @@ let g:airline_right_sep = ''
 let g:airline_right_alt_sep = ''
 let g:airline_symbols.branch = ''
 let g:airline_symbols.readonly = ''
-"let g:airline_symbols.linenr = '☰'
+let g:airline_symbols.linenr = '☰'
 let g:airline_symbols.maxlinenr = ''
 
 " rainbow
@@ -99,8 +86,6 @@ nnoremap <silent> <Leader>f :Rg<CR>
 "let g:deoplete#enable_at_startup = 1
 " coc
 " Use tab for trigger completion with characters ahead and navigate.
-" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
-" other plugin before putting this into your config.
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<TAB>" :
@@ -129,9 +114,29 @@ endfunction
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " Vista
-let g:vista#renderer#enable_icon = 0
 nnoremap <C-N> :Vista!!<CR>
 nnoremap <leader>v :Vista finder<CR>
+let g:vista_sidebar_width = 60
+"let g:vista#renderer#enable_icon = 1
+"let g:vista_icon_indent = ["╰─▸ ", "├─▸ "]
+" The default icons can't be suitable for all the filetypes, you can extend it as you wish.
+let g:vista#renderer#icons = {
+\   "function": "\uf794",
+\   "variable": "\uf71b",
+\  }
+let g:vista_default_executive = 'ctags'
+let g:vista_executive_for = {
+  \ 'cpp': 'coc',
+  \ 'cc': 'coc',
+  \ }
+function! NearestMethodOrFunction() abort
+  return get(b:, 'vista_nearest_method_or_function', '')
+endfunction
+set statusline+=%{NearestMethodOrFunction()}
+
+" Coc-explorer
+nmap <leader>e :CocCommand explorer<CR>
+
 " cscope
 if has("cscope")
   set csprg=/usr/bin/cscope
@@ -146,6 +151,18 @@ if has("cscope")
   endif
 endif
 
+" SimpylFold
+let g:SimpylFold_docstring_preview = 1
+
+" vim-tex
+let g:tex_flavor  = 'latex'
+let g:tex_conceal = ''
+let g:vimtex_fold_manual = 1
+let g:vimtex_latexmk_continuous = 1
+let g:vimtex_compiler_progname = 'nvr'
+" use SumatraPDF if you are on Windows
+let g:vimtex_view_method = 'skim'
+
 " General settings
 set iskeyword+=-                      	" treat dash separated words as a word text object"
 set formatoptions-=cro                  " Stop newline continution of comments
@@ -155,12 +172,12 @@ set hidden                              " Required to keep multiple buffers open
 set encoding=utf-8                      " The encoding displayed 
 "set pumheight=10                        " Makes popup menu smaller
 set fileencoding=utf-8                  " The encoding written to file
-"set ruler              			            " Show the cursor position all the time
-set cmdheight=2                         " More space for displaying messages
+set ruler              			            " Show the cursor position all the time
+"set cmdheight=2                         " More space for displaying messages
 set mouse=a                             " Enable your mouse
 set splitbelow                          " Horizontal splits will automatically be below
 set splitright                          " Vertical splits will automatically be to the right
-"set t_Co=256                            " Support 256 colors
+set t_Co=256                            " Support 256 colors
 set conceallevel=0                      " So that I can see `` in markdown files
 set tabstop=2                           " Insert 2 spaces for a tab
 set shiftwidth=2                        " Change the number of space characters inserted for indentation
@@ -168,9 +185,9 @@ set smarttab                            " Makes tabbing smarter will realize you
 set expandtab                           " Converts tabs to spaces
 set smartindent                         " Makes indenting smart
 set autoindent                          " Good auto indent
-"set laststatus=2                        " Always display the status line
+set laststatus=2                        " Always display the status line
 set number                              " Line numbers
-"set cursorline                          " Enable highlighting of the current line
+set cursorline                          " Enable highlighting of the current line
 "set background=dark                     " tell vim what the background color looks like
 set showtabline=2                       " Always show tabs 
 "set noshowmode                          " We don't need to see things like -- INSERT -- anymore
@@ -181,12 +198,16 @@ set signcolumn=yes                      " Always show the signcolumn, otherwise 
 set updatetime=300                      " Faster completion
 "set timeoutlen=100                      " By default timeoutlen is 1000 ms
 set clipboard+=unnamedplus               " Copy paste between vim and everything else
-"set incsearch
+set ignorecase                          " ignore case in search
+set smartcase                           " unless there are captital letters in search
+set incsearch                           " default on. search with highlighting
 "set guifont=Hack\ Nerd\ Font
 " let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 " set mmp=1300
-" set autochdir                           " Your working directory will always be the same as your working directory
-" set foldcolumn=2                        " Folding abilities
+"set autochdir                           " (NOTE: conflict with coc-clangd) Your working directory will always be the same as your working directory
+set foldcolumn=auto                        " Folding abilities
+set foldmethod=indent
+set nofoldenable                         " Disable auto folding
 
 " au! BufWritePost $MYVIMRC source %      " auto source when writing to init.vm alternatively you can run :source $MYVIMRC
 "autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
@@ -198,3 +219,4 @@ autocmd BufReadPost *
 
 " You can't stop me
 "cmap w!! w !sudo tee %
+cmap w!! w !sudo tee >/dev/null %
