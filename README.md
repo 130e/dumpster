@@ -1,2 +1,1 @@
-# dumpster
-One man's trash
+# Dotfiles and scripts

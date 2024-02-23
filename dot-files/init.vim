@@ -14,7 +14,6 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'liuchengxu/vista.vim'
 Plug 'tmhedberg/SimpylFold'
-Plug 'lervag/vimtex'
 Plug 'karb94/neoscroll.nvim'
 
 " Initialize plugin system

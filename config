@@ -1,9 +1,0 @@
-Host rpi
-    HostName 75.142.218.53
-    User pi
-    Port 5111
-
-Host tencent
-    HostName 167.172.22.132
-    User root
-    IdentityFile /home/koi/.ssh/tencent_cvm_key.pem
