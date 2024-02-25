@@ -12,6 +12,7 @@ M.treesitter = {
     "tsx",
 
     "c",
+    "cmake",
     "python",
 
     "markdown",
@@ -41,6 +42,8 @@ M.mason = {
     -- c/cpp stuff
     "clangd",
     "clang-format",
+    "cmake-language-server",
+    "cmakelang", -- linter and formatter
 
     -- python stuff
     "pyright",

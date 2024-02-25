@@ -1,4 +1,4 @@
-local overrides = require("custom.configs.overrides")
+local overrides = require "custom.configs.overrides"
 
 ---@type NvPluginSpec[]
 local plugins = {
@@ -16,7 +16,7 @@ local plugins = {
   -- override plugin configs
   {
     "williamboman/mason.nvim",
-    opts = overrides.mason
+    opts = overrides.mason,
   },
 
   {
@@ -45,6 +45,20 @@ local plugins = {
     config = function()
       require "custom.configs.conform"
     end,
+  },
+
+  {
+    "nvim-telescope/telescope.nvim", branch = "0.1.x",
+    dependencies = "jvgrootveld/telescope-zoxide",
+
+    opts = {
+      extensions_list = { "themes", "terms", "zoxide" },
+      extensions = {
+        zoxide = {
+          prompt_title = "[ Walking on the shoulders of TJ ]",
+        },
+      },
+    },
   },
 
   -- To make a plugin not be loaded
